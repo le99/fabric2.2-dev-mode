@@ -283,6 +283,16 @@ chaincodeQuery() {
   fi
 }
 
+chaincodeInvoke() {
+  ORG=$1
+  setGlobals $ORG
+  infoln "Tx send on peer0.org${ORG} on channel '$CHANNEL_NAME'..."
+  
+  peer chaincode invoke -o 127.0.0.1:7050 -C $CHANNEL_NAME -n ${CC_NAME} -c '{"Args":["InitLedger"]}' >&log.txt
+
+}
+
+# chaincodeInvoke 1
 # chaincodeQuery 1
 # exit 0
 
@@ -327,6 +337,7 @@ queryCommitted 1
 
 # chaincodeInvokeInit 1
 
+chaincodeInvoke 1
 chaincodeQuery 1
 
 # if [ "$CC_INIT_FCN" = "NA" ]; then
