@@ -11,3 +11,5 @@ node app.js
 ```
 
 https://hyperledger-fabric.readthedocs.io/en/release-2.2/write_first_app.html
+
+https://hyperledger-fabric.readthedocs.io/en/latest/peer-chaincode-devmode.html
