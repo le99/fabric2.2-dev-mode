@@ -151,6 +151,7 @@ approveForMyOrg() {
   ORG=$1
   setGlobals $ORG
   set -x
+  PACKAGE_ID="basic:1.0"
   peer lifecycle chaincode approveformyorg -o localhost:7050 --cafile $ORDERER_CA --channelID $CHANNEL_NAME --name ${CC_NAME} --version ${CC_VERSION} --package-id ${PACKAGE_ID} --sequence ${CC_SEQUENCE} ${INIT_REQUIRED} ${CC_END_POLICY} ${CC_COLL_CONFIG} >&log.txt
   res=$?
   { set +x; } 2>/dev/null
@@ -268,7 +269,7 @@ chaincodeQuery() {
     sleep $DELAY
     infoln "Attempting to Query peer0.org${ORG}, Retry after $DELAY seconds."
     set -x
-    peer chaincode query -C $CHANNEL_NAME -n ${CC_NAME} -c '{"Args":["queryAllCars"]}' >&log.txt
+    peer chaincode query -C $CHANNEL_NAME -n ${CC_NAME} -c '{"Args":["GetAllAssets"]}' >&log.txt
     res=$?
     { set +x; } 2>/dev/null
     let rc=$res
@@ -282,12 +283,16 @@ chaincodeQuery() {
   fi
 }
 
+# chaincodeQuery 1
+# exit 0
+
+
 ## package the chaincode
 packageChaincode
 
 ## Install chaincode on peer0.org1 and peer0.org2
 infoln "Installing chaincode on peer0.org1..."
-installChaincode 1
+# installChaincode 1
 # infoln "Install chaincode on peer0.org2..."
 # installChaincode 2
 
@@ -319,10 +324,15 @@ queryCommitted 1
 
 ## Invoke the chaincode - this does require that the chaincode have the 'initLedger'
 ## method defined
-if [ "$CC_INIT_FCN" = "NA" ]; then
-  infoln "Chaincode initialization is not required"
-else
-  chaincodeInvokeInit 1 2
-fi
+
+# chaincodeInvokeInit 1
+
+chaincodeQuery 1
+
+# if [ "$CC_INIT_FCN" = "NA" ]; then
+#   infoln "Chaincode initialization is not required"
+# else
+#   chaincodeInvokeInit 1 2
+# fi
 
 exit 0
