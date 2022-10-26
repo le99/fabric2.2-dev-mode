@@ -11,7 +11,8 @@
         "lint": "eslint .",
         "pretest": "npm run lint",
         "test": "nyc mocha --recursive",
-        "start": "fabric-chaincode-node start"
+        "start": "fabric-chaincode-node start",
+        "dev": "fabric-chaincode-node start --peer.address 127.0.0.1:7052 --chaincode-id-name basic:1.0"
     },
     "engineStrict": true,
     "author": "Hyperledger",
